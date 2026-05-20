@@ -242,6 +242,16 @@ As the system evolves with future advancements such as real-time processing, emo
 
 
 
+*IMPORTANT UPDATE - 
+
+*Whenever you make updates to your project code in the future, you won't have to repeat this entire setup. You'll just need to run these three simple commands to sync your changes: 
+
+git add .
+git commit -m "Your update message here"
+git push
+
+Your .gitignore file will continue keeping the venv out of the loop automatically. Huge win on getting this sorted out for your major project!
+
 
 
 
