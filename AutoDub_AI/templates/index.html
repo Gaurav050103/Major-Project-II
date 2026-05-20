@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTODUB AI // ARCADE_MODE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #111111;
+            --border-color: #ffffff;
+            --neon-blue: #00f0ff;
+            --neon-green: #39ff14;
+            --neon-red: #ff073a;
+            --text: #ffffff;
+        }
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 30px;
+            border: 4px dashed var(--border-color);
+            box-shadow: 0 0 0 4px var(--bg), 0 0 0 8px var(--border-color);
+        }
+        h1 {
+            text-align: center;
+            color: var(--neon-blue);
+            font-size: 22px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px #000;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 8px;
+            margin-bottom: 40px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+            border: 2px solid #333;
+            padding: 15px;
+            background: #050505;
+        }
+        label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+        }
+        input[type="file"], select {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 2px solid #555;
+            color: var(--text);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input[type="file"]:focus, select:focus {
+            border-color: var(--neon-blue);
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--neon-blue);
+            border: 3px solid #fff;
+            color: #000;
+            font-family: 'Press Start 2P', monospace;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px #888;
+        }
+        button:hover {
+            background: var(--neon-green);
+            box-shadow: 2px 2px 0px #888;
+        }
+        button:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .status-container {
+            margin-top: 30px;
+            display: none;
+            background: #050505;
+            padding: 20px;
+            border: 2px solid var(--neon-blue);
+        }
+        .status-container h3 {
+            font-size: 10px;
+            color: var(--neon-blue);
+            margin-top: 0;
+        }
+        .pipeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #444;
+            font-size: 8px;
+        }
+        .step.active {
+            color: var(--neon-blue);
+            animation: blink 1s infinite alternate;
+        }
+        .step.done {
+            color: var(--neon-green);
+        }
+        @keyframes blink {
+            from { opacity: 1; } to { opacity: 0.4; }
+        }
+        .download-zone {
+            margin-top: 30px;
+            display: none;
+            text-align: center;
+            padding: 25px;
+            background: #002200;
+            border: 3px solid var(--neon-green);
+        }
+        .download-zone h3 {
+            color: var(--neon-green);
+            font-size: 12px;
+            margin-top: 0;
+        }
+        .btn-download {
+            display: inline-block;
+            background: var(--neon-green);
+            color: #000;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #fff;
+            margin-top: 15px;
+            box-shadow: 3px 3px 0px #000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AutoDub AI_</h1>
+    <p class="subtitle">AITR INFO TECH // MAJOR PROJECT TASK v2.0</p>
+    
+    <form id="uploadForm">
+        <div class="form-group">
+            <label>> SELECT SOURCE VIDEO</label>
+            <input type="file" name="video" accept="video/mp4,video/mkv,video/mov" required>
+        </div>
+        
+        <div class="form-group">
+            <label>> TARGET LANGUAGE</label>
+            <select name="target_lang">
+                <option value="hi">Hindi [HINDI]</option>
+                <option value="ja">Japanese [JAPANESE]</option>
+                <option value="de">German [DEUTSCH]</option>
+                <option value="es">Spanish [ESPANOL]</option>
+                <option value="fr">French [FRANCAIS]</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>> VOICE EMULATION PROFILE</label>
+            <select name="voice_profile">
+                <option value="female">VOICE_A // FEMALE_MODEL</option>
+                <option value="male">VOICE_B // MALE_MODEL</option>
+            </select>
+        </div>
+        
+        <button type="submit" id="submitBtn">RUN PIPELINE_</button>
+    </form>
+
+    <div class="status-container" id="statusContainer">
+        <h3>PROCESSING DATA STREAMS...</h3>
+        <div class="pipeline-steps">
+            <div class="step" id="step1">[ ] SYS::DEMUX_AUDIO</div>
+            <div class="step" id="step2">[ ] WHISPER::TRANSCRIPTION_ASR</div>
+            <div class="step" id="step3">[ ] MARIAN_MT::NEURAL_NMT</div>
+            <div class="step" id="step4">[ ] TTS::ACOUSTIC_SYNTHESIS</div>
+            <div class="step" id="step5">[ ] RENDER::MASTER_COMPOSITING</div>
+        </div>
+    </div>
+
+    <div class="download-zone" id="downloadZone">
+        <h3>STAGE COMPLETE // OUTPUT READY</h3>
+        <p style="font-size: 8px; color: #aaa;">Dubbed video wrapper generated into systems directory.</p>
+        <a href="#" id="downloadLink" class="btn-download">GET FILE_</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const submitBtn = document.getElementById('submitBtn');
+        const statusContainer = document.getElementById('statusContainer');
+        const downloadZone = document.getElementById('downloadZone');
+        
+        submitBtn.disabled = true;
+        statusContainer.style.display = 'block';
+        downloadZone.style.display = 'none';
+        
+        const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
+        let currentStep = 0;
+        
+        // Reset all text labels to initial arcade states
+        steps.forEach(s => document.getElementById(s).className = 'step');
+        
+        const interval = setInterval(() => {
+            if(currentStep < steps.length) {
+                if(currentStep > 0) {
+                    const prevStep = document.getElementById(steps[currentStep-1]);
+                    prevStep.className = 'step done';
+                    prevStep.innerText = prevStep.innerText.replace('[ ]', '[OK]');
+                }
+                const nextStep = document.getElementById(steps[currentStep]);
+                nextStep.className = 'step active';
+                nextStep.innerText = nextStep.innerText.replace('[ ]', '[>>]');
+                currentStep++;
+            }
+        }, 4000);
+        
+        try {
+            const response = await fetch('/process', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            clearInterval(interval);
+            
+            if(result.success) {
+                steps.forEach(s => {
+                    const el = document.getElementById(s);
+                    el.className = 'step done';
+                    if(!el.innerText.includes('[OK]')) {
+                        el.innerText = el.innerText.replace('[ ]', '[OK]').replace('[>>]', '[OK]');
+                    }
+                });
+                
+                const dlLink = document.getElementById('downloadLink');
+                dlLink.href = result.video_url;
+                dlLink.setAttribute('download', '');
+                
+                window.location.assign(result.video_url);
+                downloadZone.style.display = 'block';
+            } else {
+                alert("PIPELINE_ERROR: " + result.error);
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            clearInterval(interval);
+            alert("FATAL INTERRUPT: Connection or network failure.");
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+</body>
+</html>
