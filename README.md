@@ -200,7 +200,7 @@ Key Entities:
 
 🎓 Guide
 
-Prof. Manish Vyas
+Prof.(Dr.) Manish Vyas
 Department of Information Technology
 Acropolis Institute of Technology & Research, Indore
 
